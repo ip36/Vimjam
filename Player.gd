@@ -19,6 +19,7 @@ signal playerdeath
 var incpoint = false
 var cpointsin = []
 var randomvar = 0
+@onready var particle = $CPUParticles2D
 
 func get_horizontal_movement():
 	var dir = 0
@@ -28,8 +29,11 @@ func get_horizontal_movement():
 		dir -= 1
 	if dir != 0:
 		velocity.x = lerpf(velocity.x, dir * move_speed * move_speed_modifier, acceleration)
+		particle.set_emitting(true)
 	else:
 		velocity.x = lerpf(velocity.x, 0, friction)
+		particle.set_emitting(false)
+	particle.direction.x = dir*-1
 
 func can_jump():
 	return is_on_floor() or coyote_timer != 0
@@ -95,6 +99,8 @@ func _physics_process(delta):
 			nextcpoint += 1
 		else:
 			emit_signal("undropcpoint", cpointsin)
+	if not is_on_floor():
+		particle.set_emitting(false)
 
 func _on_checkpoints_killplayer(checkpoint):
 	position = checkpoint.position

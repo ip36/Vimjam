@@ -31,3 +31,13 @@ position = Vector2(0, 4.5)
 shape = SubResource("2")
 
 [node name="CoyoteTimer" type="Timer" parent="."]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(-1, 24)
+amount = 4
+lifetime = 0.2
+direction = Vector2(-2, 1)
+initial_velocity_min = 400.0
+initial_velocity_max = 400.0
+scale_amount_min = 3.0
+scale_amount_max = 5.0
