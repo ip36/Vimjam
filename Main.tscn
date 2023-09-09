@@ -111,6 +111,7 @@ position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_q3con")
 
 [node name="Mainspawnpoint" type="Node2D" parent="."]
+position = Vector2(224, 159)
 script = ExtResource("8_lxdbg")
 
 [node name="Checkpoints" type="Node" parent="." node_paths=PackedStringArray("player", "worldspawn")]

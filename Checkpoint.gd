@@ -14,8 +14,6 @@ func _process(delta):
 func _on_body_entered(body):
 	get_parent().get_parent().get_node("Player").cpointsin.append(self)
 	get_parent().get_parent().get_node("Player").incpoint = true
-	print(get_parent().get_parent().get_node("Player").cpointsin)
-	print(get_parent().get_parent().get_node("Player").incpoint)
 
 
 func _on_body_exited(body):

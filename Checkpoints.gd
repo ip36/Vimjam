@@ -44,6 +44,7 @@ func _on_killbox_body_entered(body):
 			torespawn = worldspawn
 		emit_signal("killplayer", torespawn)
 		respawned = false
+		torespawndistance = 0.0
 
 
 func _on_player_undropcpoint(who):

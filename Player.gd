@@ -93,8 +93,6 @@ func _physics_process(delta):
 		if incpoint == false:
 			emit_signal("dropcpoint", "Checkpoint" + str(nextcpoint))
 			nextcpoint += 1
-			print(incpoint)
-			print(cpointsin)
 		else:
 			emit_signal("undropcpoint", cpointsin)
 
