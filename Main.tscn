@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cwq13yg300t1c"]
+[gd_scene load_steps=15 format=3 uid="uid://cwq13yg300t1c"]
 
 [ext_resource type="PackedScene" uid="uid://crg3q6ycx62qw" path="res://Player.tscn" id="1"]
 [ext_resource type="Script" path="res://Main.gd" id="1_62w1g"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://5xgsr1qofdb7" path="res://gui.tscn" id="5_vl2ej"]
 [ext_resource type="Script" path="res://Checkpoints.gd" id="7_kkgqu"]
 [ext_resource type="Script" path="res://Checkpoint.gd" id="8_k0jdm"]
+[ext_resource type="Script" path="res://Mainspawnpoint.gd" id="8_lxdbg"]
 [ext_resource type="Script" path="res://Killbox.gd" id="9_x3flt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6575m"]
@@ -101,34 +102,6 @@ drag_top_margin = 0.25
 drag_right_margin = 0.25
 drag_bottom_margin = 0.25
 
-[node name="Checkpoints" type="Node" parent="." node_paths=PackedStringArray("player")]
-script = ExtResource("7_kkgqu")
-player = NodePath("../Player")
-
-[node name="Checkpoint1" type="Area2D" parent="Checkpoints"]
-position = Vector2(485, 150)
-script = ExtResource("8_k0jdm")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint1"]
-shape = SubResource("RectangleShape2D_q3con")
-disabled = true
-
-[node name="Checkpoint2" type="Area2D" parent="Checkpoints"]
-position = Vector2(475, 140)
-script = ExtResource("8_k0jdm")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint2"]
-shape = SubResource("RectangleShape2D_q3con")
-disabled = true
-
-[node name="Checkpoint3" type="Area2D" parent="Checkpoints"]
-position = Vector2(475, 140)
-script = ExtResource("8_k0jdm")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint3"]
-shape = SubResource("RectangleShape2D_q3con")
-disabled = true
-
 [node name="Killbox" type="Area2D" parent="."]
 position = Vector2(736, 160)
 script = ExtResource("9_x3flt")
@@ -137,9 +110,42 @@ script = ExtResource("9_x3flt")
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_q3con")
 
+[node name="Mainspawnpoint" type="Node2D" parent="."]
+script = ExtResource("8_lxdbg")
+
+[node name="Checkpoints" type="Node" parent="." node_paths=PackedStringArray("player", "worldspawn")]
+script = ExtResource("7_kkgqu")
+player = NodePath("../Player")
+worldspawn = NodePath("../Mainspawnpoint")
+
+[node name="Checkpoint1" type="Area2D" parent="Checkpoints" groups=["1"]]
+position = Vector2(3, 6)
+script = ExtResource("8_k0jdm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint1"]
+shape = SubResource("RectangleShape2D_q3con")
+disabled = true
+
+[node name="Checkpoint2" type="Area2D" parent="Checkpoints" groups=["2"]]
+position = Vector2(-7, -4)
+script = ExtResource("8_k0jdm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint2"]
+shape = SubResource("RectangleShape2D_q3con")
+disabled = true
+
+[node name="Checkpoint3" type="Area2D" parent="Checkpoints" groups=["3"]]
+position = Vector2(-7, -4)
+script = ExtResource("8_k0jdm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint3"]
+shape = SubResource("RectangleShape2D_q3con")
+disabled = true
+
 [connection signal="child_entered_tree" from="Level" to="." method="_on_level_child_entered_tree"]
 [connection signal="dropcpoint" from="Player" to="Checkpoints" method="_on_player_dropcpoint"]
 [connection signal="undropcpoint" from="Player" to="Checkpoints" method="_on_player_undropcpoint"]
+[connection signal="body_entered" from="Killbox" to="Checkpoints" method="_on_killbox_body_entered"]
 [connection signal="killplayer" from="Checkpoints" to="Player" method="_on_checkpoints_killplayer"]
 [connection signal="body_entered" from="Checkpoints/Checkpoint1" to="Checkpoints/Checkpoint1" method="_on_body_entered"]
 [connection signal="body_exited" from="Checkpoints/Checkpoint1" to="Checkpoints/Checkpoint1" method="_on_body_exited"]
@@ -147,4 +153,3 @@ shape = SubResource("RectangleShape2D_q3con")
 [connection signal="body_exited" from="Checkpoints/Checkpoint2" to="Checkpoints/Checkpoint2" method="_on_body_exited"]
 [connection signal="body_entered" from="Checkpoints/Checkpoint3" to="Checkpoints/Checkpoint3" method="_on_body_entered"]
 [connection signal="body_exited" from="Checkpoints/Checkpoint3" to="Checkpoints/Checkpoint3" method="_on_body_exited"]
-[connection signal="body_entered" from="Killbox" to="Checkpoints" method="_on_killbox_body_entered"]

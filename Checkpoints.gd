@@ -3,7 +3,10 @@ extends Node
 var checkpoints = []
 var torespawn
 var torespawndistance = 0.0
+var respawned = false
+var realwho
 signal killplayer(checkpoint)
+@export var worldspawn = Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -12,38 +15,46 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	for child in get_children():
-		if not child.dropped:
-			child.position = player.position
+	pass
 
 
 func _on_player_dropcpoint(who):
 	if who == "Checkpoint1":
-		$Checkpoint1.dropped = true
-		for child in $Checkpoint1.get_children():
-			child.set_deferred("disabled", false)
+		realwho = $Checkpoint1
 	if who == "Checkpoint2":
-		$Checkpoint2.dropped = true
-		for child in $Checkpoint2.get_children():
-			child.set_deferred("disabled", false)
+		realwho = $Checkpoint2
 	if who == "Checkpoint3":
-		$Checkpoint3.dropped = true
-		for child in $Checkpoint3.get_children():
-			child.set_deferred("disabled", false)
+		realwho = $Checkpoint3
+	realwho.dropped = true
+	realwho.position = player.position
+	for child in realwho.get_children():
+		child.set_deferred("disabled", false)
 
 
 
 func _on_killbox_body_entered(body):
-	checkpoints.clear()
-	for child in get_children():
-		if child.position.distance_to(get_parent().get_node("Killbox").position) > torespawndistance:
-			torespawn = child
-			torespawndistance = child.position.distance_to(get_parent().get_node("Killbox").position)
-	emit_signal("killplayer", torespawn)
+	if body == player:
+		checkpoints.clear()
+		for child in self.get_children():
+			if child.position.distance_to(get_parent().get_node("Killbox").position) > torespawndistance and child.dropped == true:
+				torespawn = child
+				torespawndistance = child.position.distance_to(get_parent().get_node("Killbox").position)
+				respawned = true
+		if respawned == false:
+			torespawn = worldspawn
+		emit_signal("killplayer", torespawn)
+		respawned = false
 
 
 func _on_player_undropcpoint(who):
 	for item in who:
+		item.position = Vector2(0, 0)
 		item.dropped = false
 		for child in item.get_children():
 			child.set_deferred("disabled", true)
+		if item.is_in_group('1'):
+			get_parent().get_node("Player").nextcpoint = 1
+		elif item.is_in_group('2') and get_parent().get_node("Player").nextcpoint > 1:
+			get_parent().get_node("Player").nextcpoint = 2
+		elif item.is_in_group('3') and get_parent().get_node("Player").nextcpoint > 2:
+			get_parent().get_node("Player").nextcpoint = 3
