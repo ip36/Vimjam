@@ -1,20 +1,24 @@
 extends CharacterBody2D
-
+signal dropcpoint(who)
+signal undropcpoint(who)
 @export_range(0, 10.0) var move_speed_modifier: float = 1
 @export_range(0, 10.0) var jump_height_modifier: float = 1
 var move_speed = 400
 var jump_height = 800
 @export var gravity: int = 2000
-
+var nextcpoint = 1
 @export_range(0, 1.0) var friction: float = 0.95
 @export_range(0, 1.0) var acceleration: float = 0.95
 @export_range(0, 5.0) var gravity_divisor: float = 2
 @export var coyote_time: int = 10
 @export var jump_buffer: int = 10
-
 var coyote_timer = 0
 var jump_buffer_timer = 0
 var increased_gravity = false
+signal playerdeath
+var incpoint = false
+var cpointsin = []
+var randomvar = 0
 
 func get_horizontal_movement():
 	var dir = 0
@@ -64,6 +68,10 @@ func check_jump_buffer():
 		jump_buffer_timer = 0
 
 func _physics_process(delta):
+	if randomvar < 5:
+		randomvar += 1
+		incpoint = false
+		cpointsin = []
 	get_horizontal_movement()
 	check_coyote_timer()
 	check_jump_buffer()
@@ -81,3 +89,14 @@ func _physics_process(delta):
 	set_floor_stop_on_slope_enabled(true)
 	move_and_slide()
 	velocity = velocity
+	if Input.is_action_just_released("drop"):
+		if incpoint == false:
+			emit_signal("dropcpoint", "Checkpoint" + str(nextcpoint))
+			nextcpoint += 1
+			print(incpoint)
+			print(cpointsin)
+		else:
+			emit_signal("undropcpoint", cpointsin)
+
+func _on_checkpoints_killplayer(checkpoint):
+	position = checkpoint.position
