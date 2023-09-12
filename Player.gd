@@ -1,5 +1,5 @@
 extends CharacterBody2D
-signal dropcpoint(who)
+signal dropcpoint(who, platform)
 signal undropcpoint(who)
 @export_range(0, 10.0) var move_speed_modifier: float = 1
 @export_range(0, 10.0) var jump_height_modifier: float = 1
@@ -20,6 +20,9 @@ var incpoint = false
 var cpointsin = []
 var randomvar = 0
 @onready var particle = $CPUParticles2D
+var platformon
+var goto = false
+var nocontrols = false
 
 func get_horizontal_movement():
 	var dir = 0
@@ -39,7 +42,7 @@ func can_jump():
 	return is_on_floor() or coyote_timer != 0
 
 func wants_to_jump():
-	if jump_buffer_timer != 0:
+	if jump_buffer_timer != 0 and not nocontrols:
 		jump_buffer_timer = 0
 		increased_gravity = false
 		return true
@@ -94,13 +97,26 @@ func _physics_process(delta):
 	move_and_slide()
 	velocity = velocity
 	if Input.is_action_just_released("drop"):
-		if incpoint == false:
-			emit_signal("dropcpoint", "Checkpoint" + str(nextcpoint))
+		if incpoint == false and platformon != null:
+			emit_signal("dropcpoint", "Checkpoint" + str(nextcpoint), platformon)
 			nextcpoint += 1
 		else:
 			emit_signal("undropcpoint", cpointsin)
 	if not is_on_floor():
 		particle.set_emitting(false)
+	if Input.is_action_just_released("select"):
+		for child in get_tree().get_nodes_in_group("Platform"):
+			if child.dropped == true:
+				goto = true
+		print(goto, get_node("Camera2D").enabled)
+		if goto and get_node("Camera2D").enabled:
+			get_node("Camera2D").enabled = false
+			get_parent().get_node("Sprite2D").get_node("Camera2D").enabled = true
+			nocontrols = true
+		elif goto and not get_node("Camera2D").enabled:
+			get_parent().get_node("Sprite2D").get_node("Camera2D").enabled = false
+			get_node("Camera2D").enabled = true
+			nocontrols = false
 
 func _on_checkpoints_killplayer(checkpoint):
-	position = checkpoint.position
+	position = checkpoint.global_position

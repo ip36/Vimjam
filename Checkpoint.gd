@@ -1,5 +1,7 @@
 extends Area2D
 var dropped = false
+@export var player = CharacterBody2D
+@export var number = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -12,10 +14,12 @@ func _process(delta):
 
 
 func _on_body_entered(body):
-	get_parent().get_parent().get_node("Player").cpointsin.append(self)
-	get_parent().get_parent().get_node("Player").incpoint = true
+	if body == player:
+		player.cpointsin.append(self)
+		player.incpoint = true
 
 
 func _on_body_exited(body):
-	get_parent().get_parent().get_node("Player").cpointsin.erase(self)
-	get_parent().get_parent().get_node("Player").incpoint = false
+	if body == player:
+		player.cpointsin.erase(self)
+		player.incpoint = false
