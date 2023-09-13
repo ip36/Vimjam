@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cwq13yg300t1c"]
+[gd_scene load_steps=21 format=3 uid="uid://cwq13yg300t1c"]
 
 [ext_resource type="PackedScene" uid="uid://crg3q6ycx62qw" path="res://Player.tscn" id="1"]
 [ext_resource type="Script" path="res://Main.gd" id="1_62w1g"]
@@ -10,7 +10,6 @@
 [ext_resource type="Script" path="res://Checkpoint.gd" id="8_k0jdm"]
 [ext_resource type="Script" path="res://Mainspawnpoint.gd" id="8_lxdbg"]
 [ext_resource type="Script" path="res://Platformthatmaymove.gd" id="11_cavgc"]
-[ext_resource type="Texture2D" uid="uid://dib7cnc4pting" path="res://coin.jpeg" id="11_nf0dx"]
 [ext_resource type="Script" path="res://Playereffigy.gd" id="11_o6wok"]
 [ext_resource type="Script" path="res://Checkpointbutton.gd" id="12_ume5x"]
 
@@ -236,7 +235,6 @@ enabled = false
 
 [node name="Playereffigy" type="Sprite2D" parent="Sprite2D" node_paths=PackedStringArray("player")]
 position = Vector2(0, 8)
-texture = ExtResource("11_nf0dx")
 script = ExtResource("11_o6wok")
 player = NodePath("../../Player")
 
