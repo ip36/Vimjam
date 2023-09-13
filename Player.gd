@@ -25,18 +25,19 @@ var goto = false
 var nocontrols = false
 
 func get_horizontal_movement():
-	var dir = 0
-	if Input.is_action_pressed("move_right"):
-		dir += 1
-	if Input.is_action_pressed("move_left"):
-		dir -= 1
-	if dir != 0:
-		velocity.x = lerpf(velocity.x, dir * move_speed * move_speed_modifier, acceleration)
-		particle.set_emitting(true)
-	else:
-		velocity.x = lerpf(velocity.x, 0, friction)
-		particle.set_emitting(false)
-	particle.direction.x = dir*-1
+	if not nocontrols:
+		var dir = 0
+		if Input.is_action_pressed("move_right"):
+			dir += 1
+		if Input.is_action_pressed("move_left"):
+			dir -= 1
+		if dir != 0:
+			velocity.x = lerpf(velocity.x, dir * move_speed * move_speed_modifier, acceleration)
+			particle.set_emitting(true)
+		else:
+			velocity.x = lerpf(velocity.x, 0, friction)
+			particle.set_emitting(false)
+		particle.direction.x = dir*-1
 
 func can_jump():
 	return is_on_floor() or coyote_timer != 0
@@ -108,7 +109,6 @@ func _physics_process(delta):
 		for child in get_tree().get_nodes_in_group("Platform"):
 			if child.dropped == true:
 				goto = true
-		print(goto, get_node("Camera2D").enabled)
 		if goto and get_node("Camera2D").enabled:
 			get_node("Camera2D").enabled = false
 			get_parent().get_node("Sprite2D").get_node("Camera2D").enabled = true

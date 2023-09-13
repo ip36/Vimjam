@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cwq13yg300t1c"]
+[gd_scene load_steps=22 format=3 uid="uid://cwq13yg300t1c"]
 
 [ext_resource type="PackedScene" uid="uid://crg3q6ycx62qw" path="res://Player.tscn" id="1"]
 [ext_resource type="Script" path="res://Main.gd" id="1_62w1g"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://Checkpoint.gd" id="8_k0jdm"]
 [ext_resource type="Script" path="res://Mainspawnpoint.gd" id="8_lxdbg"]
 [ext_resource type="Script" path="res://Platformthatmaymove.gd" id="11_cavgc"]
+[ext_resource type="Texture2D" uid="uid://dib7cnc4pting" path="res://coin.jpeg" id="11_nf0dx"]
 [ext_resource type="Script" path="res://Playereffigy.gd" id="11_o6wok"]
 [ext_resource type="Script" path="res://Checkpointbutton.gd" id="12_ume5x"]
 
@@ -160,13 +161,6 @@ drag_top_margin = 0.25
 drag_right_margin = 0.25
 drag_bottom_margin = 0.25
 
-[node name="Killbox" type="Area2D" parent="."]
-position = Vector2(736, 160)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Killbox"]
-position = Vector2(0, 1)
-shape = SubResource("RectangleShape2D_q3con")
-
 [node name="Mainspawnpoint" type="Node2D" parent="."]
 position = Vector2(224, 159)
 script = ExtResource("8_lxdbg")
@@ -234,44 +228,50 @@ shape = SubResource("RectangleShape2D_ndcl8")
 script = SubResource("GDScript_3h5cy")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-832, -776)
+position = Vector2(-2880, -1856)
 
 [node name="Camera2D" type="Camera2D" parent="Sprite2D"]
+position = Vector2(576, 324)
 enabled = false
 
-[node name="Playereffigy" type="Sprite2D" parent="Sprite2D"]
-position = Vector2(832, 776)
+[node name="Playereffigy" type="Sprite2D" parent="Sprite2D" node_paths=PackedStringArray("player")]
+position = Vector2(0, 8)
+texture = ExtResource("11_nf0dx")
 script = ExtResource("11_o6wok")
+player = NodePath("../../Player")
 
 [node name="Button" type="Button" parent="Sprite2D" node_paths=PackedStringArray("movingplatforms")]
-offset_left = -192.0
-offset_top = -56.0
-offset_right = -128.0
-offset_bottom = 8.0
+offset_left = 384.0
+offset_top = 268.0
+offset_right = 448.0
+offset_bottom = 332.0
 script = ExtResource("12_ume5x")
 movingplatforms = NodePath("../../Movingplatforms")
+metadata/_edit_use_anchors_ = true
 
 [node name="Button2" type="Button" parent="Sprite2D" node_paths=PackedStringArray("movingplatforms")]
-offset_left = -320.0
-offset_top = -56.0
-offset_right = -256.0
-offset_bottom = 8.0
+offset_left = 256.0
+offset_top = 268.0
+offset_right = 320.0
+offset_bottom = 332.0
 script = ExtResource("12_ume5x")
 number = 1
 movingplatforms = NodePath("../../Movingplatforms")
+metadata/_edit_use_anchors_ = true
 
 [node name="Button3" type="Button" parent="Sprite2D" node_paths=PackedStringArray("movingplatforms")]
-offset_left = -64.0
-offset_top = -56.0
-offset_bottom = 8.0
+offset_left = 512.0
+offset_top = 268.0
+offset_right = 576.0
+offset_bottom = 332.0
 script = ExtResource("12_ume5x")
 number = 2
 movingplatforms = NodePath("../../Movingplatforms")
+metadata/_edit_use_anchors_ = true
 
 [connection signal="child_entered_tree" from="Level" to="." method="_on_level_child_entered_tree"]
 [connection signal="dropcpoint" from="Player" to="Checkpoints" method="_on_player_dropcpoint"]
 [connection signal="undropcpoint" from="Player" to="Checkpoints" method="_on_player_undropcpoint"]
-[connection signal="body_entered" from="Killbox" to="Varmanager" method="_on_killbox_body_entered"]
 [connection signal="AAAAAAAAAAAAAAAAAAAAAAAA" from="Checkpoints" to="Sprite2D/Button" method="_on_checkpoints_aaaaaaaaaaaaaaaaaaaaaaaa"]
 [connection signal="AAAAAAAAAAAAAAAAAAAAAAAA" from="Checkpoints" to="Sprite2D/Button2" method="_on_checkpoints_aaaaaaaaaaaaaaaaaaaaaaaa"]
 [connection signal="AAAAAAAAAAAAAAAAAAAAAAAA" from="Checkpoints" to="Sprite2D/Button3" method="_on_checkpoints_aaaaaaaaaaaaaaaaaaaaaaaa"]

@@ -14,6 +14,7 @@ func _process(delta):
 		set_position(pleasework[number])
 	else:
 		self.visible = false
+	self.text = str(number)
 
 
 func _on_checkpoints_aaaaaaaaaaaaaaaaaaaaaaaa(transmission):
