@@ -11,7 +11,7 @@ func _ready():
 func _process(delta):
 	if pleasework[number]:
 		self.visible = true
-		set_position(pleasework[number])
+		set_position(pleasework[number]/8)
 	else:
 		self.visible = false
 	self.text = str(number)
@@ -24,3 +24,4 @@ func onpressed():
 	get_parent().get_node("Camera2D").enabled = false
 	get_parent().get_parent().get_node("Player").get_node("Camera2D").enabled = true
 	get_parent().get_parent().get_node("Player").position = pleasework[number]
+	get_parent().get_parent().get_node("Player").nocontrols = false

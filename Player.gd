@@ -23,6 +23,7 @@ var randomvar = 0
 var platformon
 var goto = false
 var nocontrols = false
+signal bringuptext
 
 func get_horizontal_movement():
 	if not nocontrols:
@@ -117,6 +118,8 @@ func _physics_process(delta):
 			get_parent().get_node("Sprite2D").get_node("Camera2D").enabled = false
 			get_node("Camera2D").enabled = true
 			nocontrols = false
+		if not goto:
+			emit_signal("bringuptext")
 
 func _on_checkpoints_killplayer(checkpoint):
 	position = checkpoint.global_position

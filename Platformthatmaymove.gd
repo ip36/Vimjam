@@ -17,6 +17,18 @@ func _process(delta):
 	if kooldown <= 0 and moving == false:
 		moving = true
 		kooldown = delays[stage]
+		if destinations[stage].x > position.x:
+			$AnimatedSprite2D.frame = 2
+			$AnimatedSprite2D.offset = Vector2(3, 0)
+		elif destinations[stage].x < position.x:
+			$AnimatedSprite2D.frame = 0
+			$AnimatedSprite2D.offset = Vector2(-3, 0)
+		elif destinations[stage].y < position.y:
+			$AnimatedSprite2D.frame = 1
+			$AnimatedSprite2D.offset = Vector2(-3, -3)
+		elif destinations[stage].y > position.y:
+			$AnimatedSprite2D.frame = 3
+			$AnimatedSprite2D.offset = Vector2(-3, 3)
 	elif moving == false:
 		kooldown -= delta
 	if moving == true and position == destinations[stage]:
