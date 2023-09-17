@@ -107,19 +107,14 @@ func _physics_process(delta):
 	if not is_on_floor():
 		particle.set_emitting(false)
 	if Input.is_action_just_released("select"):
-		for child in get_tree().get_nodes_in_group("Platform"):
-			if child.dropped == true:
-				goto = true
-		if goto and get_node("Camera2D").enabled:
+		if get_node("Camera2D").enabled:
 			get_node("Camera2D").enabled = false
 			get_parent().get_node("Sprite2D").get_node("Camera2D").enabled = true
 			nocontrols = true
-		elif goto and not get_node("Camera2D").enabled:
+		else:
 			get_parent().get_node("Sprite2D").get_node("Camera2D").enabled = false
 			get_node("Camera2D").enabled = true
 			nocontrols = false
-		if not goto:
-			emit_signal("bringuptext")
 
 func _on_checkpoints_killplayer(checkpoint):
 	position = checkpoint.global_position

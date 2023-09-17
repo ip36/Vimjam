@@ -25,10 +25,10 @@ func _process(delta):
 			$AnimatedSprite2D.offset = Vector2(-3, 0)
 		elif destinations[stage].y < position.y:
 			$AnimatedSprite2D.frame = 1
-			$AnimatedSprite2D.offset = Vector2(-3, -3)
+			$AnimatedSprite2D.offset = Vector2(0, -3)
 		elif destinations[stage].y > position.y:
 			$AnimatedSprite2D.frame = 3
-			$AnimatedSprite2D.offset = Vector2(-3, 3)
+			$AnimatedSprite2D.offset = Vector2(0, 3)
 	elif moving == false:
 		kooldown -= delta
 	if moving == true and position == destinations[stage]:
